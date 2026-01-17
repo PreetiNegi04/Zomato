@@ -27,7 +27,6 @@ async function authFoodPartnerMiddleware(req, res, next) {
 
 async function authUserMiddleware(req, res, next) {
   const token = req.cookies.token;
-  console.log("TOKEN:", token);
 
   if (!token) {
     return res.status(401).json({
