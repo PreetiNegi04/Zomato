@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/auth.css";
+import axios from "axios";
 
 const FoodPartnerRegister = () => {
-  const [formData, setFormData] = useState({
+  /*const [formData, setFormData] = useState({
     restaurantName: "",
     ownerName: "",
     email: "",
@@ -11,15 +12,43 @@ const FoodPartnerRegister = () => {
     address: "",
     password: "",
     agreeTerms: false,
-  });
+  });*/
+  const navigate = useNavigate();
+  const ownerName = useRef(null);
+  const restaurantName = useRef(null);
+  const email = useRef(null);
+  const phone = useRef(null);
+  const address = useRef(null);
+  const password = useRef(null);
 
-  const handleInputChange = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await axios.post(
+      "http://localhost:3000/api/auth/food-partner/register",
+      {
+        name: ownerName.current.value,
+        contactName: restaurantName.current.value,
+        email: email.current.value,
+        phone: phone.current.value,
+        address: address.current.value,
+        password: password.current.value,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+
+    console.log(response.data);
+    navigate("/create-food");
+  };
+
+  /*const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
-  };
+  };*/
 
   return (
     <div className="auth-container">
@@ -36,11 +65,10 @@ const FoodPartnerRegister = () => {
               <label className="form-label">Restaurant Name</label>
               <input
                 type="text"
+                ref={restaurantName}
                 name="restaurantName"
                 className="form-input"
                 placeholder="Your Restaurant Name"
-                value={formData.restaurantName}
-                onChange={handleInputChange}
               />
             </div>
 
@@ -48,23 +76,21 @@ const FoodPartnerRegister = () => {
               <label className="form-label">Owner Name</label>
               <input
                 type="text"
+                ref={ownerName}
                 name="ownerName"
                 className="form-input"
                 placeholder="Full Name"
-                value={formData.ownerName}
-                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
               <label className="form-label">Email Address</label>
               <input
+                ref={email}
                 type="email"
                 name="email"
                 className="form-input"
                 placeholder="partner@restaurant.com"
-                value={formData.email}
-                onChange={handleInputChange}
               />
             </div>
 
@@ -72,11 +98,10 @@ const FoodPartnerRegister = () => {
               <label className="form-label">Phone Number</label>
               <input
                 type="tel"
+                ref={phone}
                 name="phone"
                 className="form-input"
                 placeholder="+1 (555) 000-0000"
-                value={formData.phone}
-                onChange={handleInputChange}
               />
             </div>
 
@@ -84,11 +109,10 @@ const FoodPartnerRegister = () => {
               <label className="form-label">Restaurant Address</label>
               <input
                 type="text"
+                ref={address}
                 name="address"
                 className="form-input"
                 placeholder="Street address"
-                value={formData.address}
-                onChange={handleInputChange}
               />
             </div>
 
@@ -96,29 +120,18 @@ const FoodPartnerRegister = () => {
               <label className="form-label">Password</label>
               <input
                 type="password"
+                ref={password}
                 name="password"
                 className="form-input"
                 placeholder="Create a strong password"
-                value={formData.password}
-                onChange={handleInputChange}
               />
             </div>
 
-            <div className="checkbox-group">
-              <input
-                type="checkbox"
-                id="agreeTerms"
-                name="agreeTerms"
-                className="checkbox-input"
-                checked={formData.agreeTerms}
-                onChange={handleInputChange}
-              />
-              <label htmlFor="agreeTerms" className="checkbox-label">
-                I agree to the <Link to="#">Terms and Conditions</Link>
-              </label>
-            </div>
-
-            <button type="submit" className="auth-button">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="auth-button"
+            >
               Register Restaurant
             </button>
           </form>

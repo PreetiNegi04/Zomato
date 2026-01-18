@@ -1,12 +1,29 @@
-import React, { useState } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/auth.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserLogin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+  const email = useRef(null);
+  const password = useRef(null);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await axios.post(
+      "http://localhost:3000/api/auth/user/login",
+      {
+        email: email.current.value,
+        password: password.current.value,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    console.log(response.data);
+    navigate("/");
+  };
   return (
     <div className="auth-container">
       <div className="auth-wrapper">
@@ -22,10 +39,9 @@ const UserLogin = () => {
               <label className="form-label">Email Address</label>
               <input
                 type="email"
+                ref={email}
                 className="form-input"
                 placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -35,35 +51,21 @@ const UserLogin = () => {
                 type="password"
                 className="form-input"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                ref={password}
               />
             </div>
 
-            <div className="checkbox-group">
-              <input
-                type="checkbox"
-                id="rememberMe"
-                className="checkbox-input"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label htmlFor="rememberMe" className="checkbox-label">
-                Remember me
-              </label>
-            </div>
-
-            <button type="submit" className="auth-button">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="auth-button"
+            >
               Sign In
             </button>
           </form>
 
           <div className="form-link">
             Don't have an account? <Link to="/user/register">Create one</Link>
-          </div>
-
-          <div className="form-link">
-            <Link to="#">Forgot password?</Link>
           </div>
 
           <div className="divider">
@@ -73,7 +75,7 @@ const UserLogin = () => {
           </div>
 
           <div className="form-link">
-            Are you a food partner?{" "}
+            Are you a food partner?
             <Link to="/partner/login">Sign in here</Link>
           </div>
         </div>

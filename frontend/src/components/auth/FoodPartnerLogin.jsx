@@ -1,12 +1,27 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/auth.css";
+import axios from "axios";
 
 const FoodPartnerLogin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
+  const email = useRef(null);
+  const password = useRef(null);
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await axios.post(
+      "http://localhost:3000/api/auth/food-partner/login",
+      {
+        email: email.current.value,
+        password: password.current.value,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    console.log(response.data);
+    navigate("/create-food");
+  };
   return (
     <div className="auth-container">
       <div className="auth-wrapper">
@@ -24,8 +39,7 @@ const FoodPartnerLogin = () => {
                 type="email"
                 className="form-input"
                 placeholder="partner@restaurant.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                ref={email}
               />
             </div>
 
@@ -35,25 +49,15 @@ const FoodPartnerLogin = () => {
                 type="password"
                 className="form-input"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                ref={password}
               />
             </div>
 
-            <div className="checkbox-group">
-              <input
-                type="checkbox"
-                id="rememberMe"
-                className="checkbox-input"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label htmlFor="rememberMe" className="checkbox-label">
-                Remember me
-              </label>
-            </div>
-
-            <button type="submit" className="auth-button">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="auth-button"
+            >
               Sign In
             </button>
           </form>
@@ -61,10 +65,6 @@ const FoodPartnerLogin = () => {
           <div className="form-link">
             New to partner program?{" "}
             <Link to="/partner/register">Apply now</Link>
-          </div>
-
-          <div className="form-link">
-            <Link to="#">Forgot password?</Link>
           </div>
 
           <div className="divider">
