@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/auth.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "../../styles/auth.css";
 
 const FoodPartnerRegister = () => {
   const [formData, setFormData] = useState({
-    restaurantName: '',
-    ownerName: '',
-    email: '',
-    phone: '',
-    address: '',
-    password: '',
+    restaurantName: "",
+    ownerName: "",
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
     agreeTerms: false,
   });
 
@@ -17,7 +17,7 @@ const FoodPartnerRegister = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -124,8 +124,7 @@ const FoodPartnerRegister = () => {
           </form>
 
           <div className="form-link">
-            Already registered?{' '}
-            <Link to="/partner/login">Sign in</Link>
+            Already registered? <Link to="/partner/login">Sign in</Link>
           </div>
 
           <div className="divider">
@@ -135,8 +134,7 @@ const FoodPartnerRegister = () => {
           </div>
 
           <div className="form-link">
-            Are you a customer?{' '}
-            <Link to="/user/register">Register here</Link>
+            Are you a customer? <Link to="/user/register">Register here</Link>
           </div>
         </div>
       </div>

@@ -1,22 +1,39 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/auth.css';
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+import "../../styles/auth.css";
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 const UserRegister = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    agreeTerms: false,
-  });
+  const fullName = useRef(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await axios.post('http://localhost:3000/api/auth/user/register', {
+      fullName: fullName.current.value,
+      email: email.current.value,
+      password: password.current.value,
+
+      
+    },{
+      withCredentials: true,
+    });
+    console.log(response.data)
+    navigate('/');
+
+
+  }
+
+  /*const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
-  };
+      [name]: type === "checkbox" ? checked : value,
+    }); 
+  };*/
 
   return (
     <div className="auth-container">
@@ -31,62 +48,41 @@ const UserRegister = () => {
           <form className="auth-form">
             <div className="form-group">
               <label className="form-label">Full Name</label>
-              <input
+              <input ref ={fullName}
                 type="text"
                 name="fullName"
                 className="form-input"
                 placeholder="John Doe"
-                value={formData.fullName}
-                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
               <label className="form-label">Email Address</label>
-              <input
+              <input ref={email}
                 type="email"
                 name="email"
                 className="form-input"
                 placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
               <label className="form-label">Password</label>
-              <input
+              <input ref={password}
                 type="password"
                 name="password"
                 className="form-input"
                 placeholder="Create a strong password"
-                value={formData.password}
-                onChange={handleInputChange}
               />
             </div>
 
-            <div className="checkbox-group">
-              <input
-                type="checkbox"
-                id="agreeTerms"
-                name="agreeTerms"
-                className="checkbox-input"
-                checked={formData.agreeTerms}
-                onChange={handleInputChange}
-              />
-              <label htmlFor="agreeTerms" className="checkbox-label">
-                I agree to the <Link to="#">Terms and Conditions</Link>
-              </label>
-            </div>
-
-            <button type="submit" className="auth-button">
+            <button type="submit" className="auth-button" onClick={handleSubmit}>
               Create Account
             </button>
           </form>
 
           <div className="form-link">
-            Already have an account?{' '}
-            <Link to="/user/login">Sign in</Link>
+            Already have an account? <Link to="/user/login">Sign in</Link>
           </div>
 
           <div className="divider">
@@ -96,7 +92,7 @@ const UserRegister = () => {
           </div>
 
           <div className="form-link">
-            Are you a food partner?{' '}
+            Are you a food partner?
             <Link to="/partner/register">Register here</Link>
           </div>
         </div>
