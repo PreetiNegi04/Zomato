@@ -1,0 +1,131 @@
+/* Hide scrollbar */
+.reels-container::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Container */
+.reels-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+  background: #000;
+}
+
+/* Each reel */
+.reel {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+/* Video */
+.reel-video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Overlay */
+.reel-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.35) 40%,
+    rgba(0, 0, 0, 0) 70%
+  );
+}
+
+/* Content wrapper */
+.reel-content {
+  max-width: 85%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+/* Description text */
+.reel-description {
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 400;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* Button */
+.visit-store-btn {
+  width: fit-content;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
+}
+
+.visit-store-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.visit-store-btn:hover {
+  background: #d63d2d;
+  transform: scale(1.05);
+}
+
+.visit-store-btn:active {
+  transform: scale(0.98);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .reel-overlay {
+    padding: 16px;
+  }
+
+  .reel-description {
+    font-size: 13px;
+  }
+
+  .visit-store-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reel-overlay {
+    padding: 12px;
+  }
+
+  .reel-description {
+    font-size: 12px;
+  }
+
+  .visit-store-btn {
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+}

@@ -17,4 +17,6 @@ router.post(
 
 router.get("/", authMiddleware.authUserMiddleware, foodController.getFoodItems);
 
+
+
 module.exports = router;
