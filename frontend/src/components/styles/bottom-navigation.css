@@ -1,0 +1,116 @@
+@import "../../styles/theme.css";
+
+/* Bottom Navigation Bar */
+.bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  height: 56px;
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-border);
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bottom-navigation {
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Navigation Items */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  height: 100%;
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-item:hover {
+  color: var(--color-primary);
+  background-color: var(--color-surface-hover);
+}
+
+.nav-item.active {
+  color: var(--color-primary);
+}
+
+.nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--color-primary);
+}
+
+/* Navigation Icon */
+.nav-icon {
+  font-size: 20px;
+  line-height: 1;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.nav-item:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+.nav-item.active .nav-icon {
+  transform: scale(1.15);
+}
+
+/* Navigation Text */
+.nav-text {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 480px) {
+  .bottom-navigation {
+    height: 52px;
+    width: 85%;
+  }
+
+  .nav-icon {
+    font-size: 18px;
+  }
+
+  .nav-text {
+    font-size: 9px;
+  }
+}
+
+/* Tablet and above */
+@media (min-width: 768px) {
+  .bottom-navigation {
+    height: 56px;
+    width: 80%;
+  }
+
+  .nav-icon {
+    font-size: 22px;
+  }
+
+  .nav-text {
+    font-size: 11px;
+  }
+}

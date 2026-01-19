@@ -60,14 +60,7 @@ const Profile = () => {
       {/* Header */}
       <div className="profile-header">
         <div className="profile-pic-section">
-          <img
-            src={
-              profileData.profilePicture ||
-              "https://via.placeholder.com/150?text=Restaurant"
-            }
-            alt="Profile"
-            className="profile-picture"
-          />
+          <img alt="Profile" className="profile-picture" />
         </div>
 
         <div className="profile-info-section">
@@ -84,10 +77,6 @@ const Profile = () => {
           <div className="stats-container">
             <div className="stat">
               <span className="stat-number">{videos.length}</span>
-              <span className="stat-label">Videos</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">{profileData.totalMeals || 0}</span>
               <span className="stat-label">Meals Served</span>
             </div>
             <div className="stat">

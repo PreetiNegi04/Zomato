@@ -2,6 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import "../styles/home-reels.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import BottomNavigation from "./BottomNavigation";
+import { GoCommentDiscussion } from "react-icons/go";
+import { IoBookmarkOutline } from "react-icons/io5";
+import { IoIosHeartEmpty } from "react-icons/io";
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,8 +33,7 @@ const Home = () => {
     if (!reelsContainerRef.current || videos.length === 0) return;
 
     isSnappingRef.current = true;
-    const scrollHeight =
-      reelsContainerRef.current.scrollHeight / videos.length;
+    const scrollHeight = reelsContainerRef.current.scrollHeight / videos.length;
 
     reelsContainerRef.current.scrollTo({
       top: scrollHeight * index,
@@ -55,7 +58,7 @@ const Home = () => {
       const direction = e.deltaY > 0 ? 1 : -1;
       const nextIndex = Math.max(
         0,
-        Math.min(currentIndex + direction, videos.length - 1)
+        Math.min(currentIndex + direction, videos.length - 1),
       );
 
       if (nextIndex !== currentIndex) {
@@ -95,7 +98,7 @@ const Home = () => {
         }
 
         food = food.filter(
-          (item) => item && typeof item === "object" && item.video
+          (item) => item && typeof item === "object" && item.video,
         );
 
         setVideos(food);
@@ -107,37 +110,56 @@ const Home = () => {
   }, []);
 
   return (
-    <div
-      className="reels-container"
-      ref={reelsContainerRef}
-      onScroll={handleScroll}
-    >
-      {videos.map((video, index) => (
-        <div key={video._id} className="reel">
-          <video
-            ref={(el) => (videoRefs.current[index] = el)}
-            className="reel-video"
-            src={video.video}
-            loop
-            muted
-            playsInline
-            preload="metadata"
-          />
+    <>
+      <div
+        className="reels-container"
+        ref={reelsContainerRef}
+        onScroll={handleScroll}
+      >
+        {videos.map((video, index) => (
+          <div key={video._id} className="reel">
+            <video
+              ref={(el) => (videoRefs.current[index] = el)}
+              className="reel-video"
+              src={video.video}
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
 
-          <div className="reel-overlay">
-            <div className="reel-content">
-              <p className="reel-description">{video.description}</p>
-              <Link
-                to={`/food-partner/${video.foodPartner}`}
-                className="visit-store-btn"
-              >
-                Visit Store
-              </Link>
+            <div className="reel-overlay">
+              <div className="reel-content">
+                <p className="reel-description">{video.description}</p>
+                <Link
+                  to={`/food-partner/${video.foodPartner}`}
+                  className="visit-store-btn"
+                >
+                  Visit Store
+                </Link>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="reel-actions">
+                <button className="reel-action-btn" title="Like">
+                  <span className="action-icon"><IoIosHeartEmpty /></span>
+                  <span className="action-text">Like</span>
+                </button>
+                <button className="reel-action-btn" title="Save">
+                  <span className="action-icon"><IoBookmarkOutline /></span>
+                  <span className="action-text">Save</span>
+                </button>
+                <button className="reel-action-btn" title="Comment">
+                  <span className="action-icon"><GoCommentDiscussion /></span>
+                  <span className="action-text">Comment</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+      <BottomNavigation />
+    </>
   );
 };
 
